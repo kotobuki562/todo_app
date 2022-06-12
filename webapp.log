@@ -1,3 +1,4 @@
 2022/06/12 08:39:01 main.go:14: test
 2022/06/12 09:29:26 users.go:33: sql: converting argument $1 type: unsupported type func() uuid.UUID, a func
 2022/06/12 09:35:57 users.go:52: no such column: creates_at
+2022/06/12 09:40:43 users.go:61: near "where": syntax error
