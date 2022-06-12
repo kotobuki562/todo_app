@@ -3,3 +3,10 @@
 2022/06/12 09:35:57 users.go:52: no such column: creates_at
 2022/06/12 09:40:43 users.go:61: near "where": syntax error
 2022/06/12 09:44:39 users.go:52: sql: no rows in result set
+2022/06/12 09:52:09 users.go:52: sql: no rows in result set
+2022/06/12 10:26:08 todos.go:51: near "from": syntax error
+2022/06/12 10:26:46 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
+2022/06/12 10:27:26 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
+2022/06/12 10:27:52 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
+2022/06/12 11:00:35 todos.go:101: not enough args to execute query: want 3 got 2
+2022/06/12 11:00:56 todos.go:101: not enough args to execute query: want 3 got 2
