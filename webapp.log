@@ -8,3 +8,5 @@
 2022/06/12 10:26:46 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
 2022/06/12 10:27:26 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
 2022/06/12 10:27:52 todos.go:62: sql: expected 3 destination arguments in Scan, not 4
+2022/06/12 11:00:35 todos.go:101: not enough args to execute query: want 3 got 2
+2022/06/12 11:00:56 todos.go:101: not enough args to execute query: want 3 got 2
