@@ -11,7 +11,7 @@ type User struct {
 	Name string
 	Email string
 	Password string
-	CreatesAt time.Time
+	CreatedAt time.Time
 }
 
 func (u *User) CreateUser() (err error) {
@@ -33,4 +33,23 @@ func (u *User) CreateUser() (err error) {
 				log.Fatalln(err)
 			}
 			return err
+}
+
+func GetUser(id int) (user User, err error) {
+	user = User{}
+
+	cmd := `select id, uuid, name, email, password, created_at
+		from users where id = ?`
+		err = Db.QueryRow(cmd, id).Scan(
+			&user.ID,
+			&user.UUID,
+			&user.Name,
+			&user.Email,
+			&user.Password,
+			&user.CreatedAt,
+		)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		return user, err
 }
