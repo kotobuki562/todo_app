@@ -12,6 +12,7 @@ type ConfigList struct {
 	SQLDriver string
 	DbName string
 	LogFile string
+	Static string
 }
 
 var Config ConfigList
@@ -32,5 +33,7 @@ func LoadConfig() {
 		SQLDriver: cfg.Section("db").Key("driver").MustString("sqlite3"),
 		DbName: cfg.Section("db").Key("name").String(),
 		LogFile: cfg.Section("web").Key("logfile").String(),
+		// 静的ファイルがありパスをconfig.iniで設定
+		Static: cfg.Section("web").Key("static").String(),
 	}
 }
