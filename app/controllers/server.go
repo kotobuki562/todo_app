@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"todo_app/app/models"
 	"todo_app/config"
 )
 
@@ -15,6 +16,18 @@ func generateHTML(w http.ResponseWriter, data interface{}, filename ...string,) 
 
 	templates := template.Must(template.ParseFiles(files...))
 	templates.ExecuteTemplate(w, "layout", data)
+}
+
+// アクセス権限をかける
+func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err error) {
+	cookie, err := r.Cookie("_cookie")
+	if err != nil {
+		sess = models.Session{UUID: cookie.Value}
+		if ok, _ := sess.CheckSession(); !ok {
+			err = fmt.Errorf("Invalid session")
+		}
+	}
+	return sess, err
 }
 
 func StartMainServer() error {
@@ -29,6 +42,7 @@ func StartMainServer() error {
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/authenticate", authenticate)
+	http.HandleFunc("/todos", index)
 
 	// nilにするとデフォルトで404が返ってくる
 	return http.ListenAndServe(":" + config.Config.Port, nil)
