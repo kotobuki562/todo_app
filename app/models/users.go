@@ -127,7 +127,7 @@ func (u *User) CreateSession() (session Session, err error) {
 	return session, err
 }
 
-// セッションの内容を確認する
+// cookieから得たUUIDからセッションテーb流を参照して内容を確認しに行く
 func (sess *Session) CheckSession() (valid bool, err error) {
 	cmd := `select id, uuid, email, user_id, created_at
 		from sessions where uuid = ?`
@@ -138,7 +138,7 @@ func (sess *Session) CheckSession() (valid bool, err error) {
 		&sess.Email,
 		&sess.UserID,
 		&sess.CreatedAt)
-		
+
 	if err != nil {
 		valid = false
 		return
@@ -147,4 +147,13 @@ func (sess *Session) CheckSession() (valid bool, err error) {
 		valid = true
 	}
 	return valid, err
+}
+
+func (sess *Session) DeleteSessionByUUID() (err error) {
+	cmd := `delete from sessions where uuid = ?`
+	_, err = Db.Exec(cmd, sess.UUID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
 }
