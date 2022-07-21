@@ -16,3 +16,7 @@
 1. views にて UI の実装
 2. controllers にてハンドラー関数の実装
 3. controllers の server にて URL の登録
+
+### 改善点
+
+- cookie が nil の場合のエラー処理が出来ていない
