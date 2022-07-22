@@ -75,6 +75,7 @@ func StartMainServer() error {
 	// validPathを使う都合で/todos/edit/にする
 	// todoEdit関数は(w, r, int)を引数に取っている
 	http.HandleFunc("/todos/edit/", parseURL(todoEdit))
+	http.HandleFunc("/todos/update/", parseURL(todoUpdate))
 
 	// nilにするとデフォルトで404が返ってくる
 	return http.ListenAndServe(":" + config.Config.Port, nil)
