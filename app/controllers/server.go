@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"regexp"
+	"strconv"
 	"todo_app/app/models"
 	"todo_app/config"
 )
@@ -30,6 +32,30 @@ func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err e
 	return sess, err
 }
 
+// URLの正規表現
+var validPath = regexp.MustCompile("^/todos/(edit|update|delete)/([0-9]+)$")
+
+// URLをパースする。
+// qoでIDを取得してfn(ハンドラ)を返している
+func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// 受け取ったURLのpathを解析してvalidPathにマッチするか確認する
+		q := validPath.FindStringSubmatch(r.URL.Path)
+		if q == nil {
+			http.NotFound(w, r)
+			return
+		}
+		// エンドポイントの2番目にはIDが入っているのでintに変換する
+		qi, err := strconv.Atoi(q[2])
+		// qiがintでない場合はエラーを起こすのでエラーハンドリングを行う
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+		fn(w, r, qi)
+	}
+}
+
 func StartMainServer() error {
 	// viewsディレクトリにあるjsとcssを読み込む
 	files := http.FileServer(http.Dir(config.Config.Static))
@@ -46,6 +72,11 @@ func StartMainServer() error {
 	http.HandleFunc("/todos", index)
 	http.HandleFunc("/todos/new", todoNew)
 	http.HandleFunc("/todos/save", todoSave)
+	// validPathを使う都合で/todos/edit/にする
+	// todoEdit関数は(w, r, int)を引数に取っている
+	http.HandleFunc("/todos/edit/", parseURL(todoEdit))
+	http.HandleFunc("/todos/update/", parseURL(todoUpdate))
+	http.HandleFunc("/todos/delete/", parseURL(todoDelete))
 
 	// nilにするとデフォルトで404が返ってくる
 	return http.ListenAndServe(":" + config.Config.Port, nil)
