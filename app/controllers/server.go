@@ -33,8 +33,7 @@ func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err e
 }
 
 // URLの正規表現
-var validPath = regexp.MustCompile("^/todos/(edit|update|delete)/([0-9]+)$")
-
+var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)$")
 // URLをパースする。
 // qoでIDを取得してfn(ハンドラ)を返している
 func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {

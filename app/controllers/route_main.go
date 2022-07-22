@@ -20,7 +20,7 @@ func top(w http.ResponseWriter, r *http.Request) {
 func index(w http.ResponseWriter, r *http.Request) {
 	sess, err := session(w, r)
 	if err != nil {
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/login", 302)
 	} else {
 		// 得たsessionでuserを取得する
 		user, err := sess.GetUserBySession()
@@ -38,7 +38,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func todoNew(w http.ResponseWriter, r *http.Request) {
 	_, err := session(w, r)
 	if err != nil {
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/login", 302)
 	} else {
 		generateHTML(w, nil, "layout", "private_navbar", "todo_new")
 	}
@@ -47,7 +47,7 @@ func todoNew(w http.ResponseWriter, r *http.Request) {
 func todoSave(w http.ResponseWriter, r *http.Request) {
 	sess, err := session(w, r)
 	if err != nil {
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/login", 302)
 	} else {
 		err = r.ParseForm()
 		if err != nil {
