@@ -20,3 +20,12 @@
 ### 改善点
 
 - cookie が nil の場合のエラー処理が出来ていない
+
+JSON でデータをレスポンスする場合は
+
+```main.go
+// JSONデータをレスポンスに書き込む
+w.Header().Set("Content-Type", "application/json")
+w.WriteHeader(http.StatusOK)
+json.NewEncoder(w).Encode(user)
+```

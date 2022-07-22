@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -16,10 +17,19 @@ func top(w http.ResponseWriter, r *http.Request) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	_, err := session(w, r)
+	sess, err := session(w, r)
 	if err != nil {
 		http.Redirect(w, r, "/", 302)
 	} else {
-		generateHTML(w, nil, "layout", "private_navbar", "index")
+		// 得たsessionでuserを取得する
+		user, err := sess.GetUserBySession()
+		if err != nil {
+			log.Println(err)
+		}
+		// userのtodos取得のメソッドを叩いてtodosを取得する
+		todos, _ := user.GetTodosByUser()
+		// Userのstructに[]Todoを加えて返す
+		user.Todos = todos
+		generateHTML(w, user, "layout", "private_navbar", "index")
 	}
 }
