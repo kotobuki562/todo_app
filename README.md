@@ -29,3 +29,12 @@ w.Header().Set("Content-Type", "application/json")
 w.WriteHeader(http.StatusOK)
 json.NewEncoder(w).Encode(user)
 ```
+
+### package
+
+go.mod を作成(パッケージを管理する)
+`go mod init`
+
+依存するパッケージをインストール
+`go get -v`
+すると go.mod にパッケージが追加され、go.sum が作成される
