@@ -38,3 +38,31 @@ go.mod を作成(パッケージを管理する)
 依存するパッケージをインストール
 `go get -v`
 すると go.mod にパッケージが追加され、go.sum が作成される
+
+### heroku
+
+heroku へログイン
+`heroku login`
+
+heroku を作成
+`heroku create`
+
+main ブランチを heroku にデプロイ
+`git push heroku main`
+
+postgresql を確認
+`heroku pg:info`
+
+postgresql の設定 init
+`heroku addons:add heroku-postgresql`
+
+`heroku pg:sql -c "\d"`
+
+postgresql に入る
+`heroku pg:sql`
+
+ローカルの sql を実行する
+`\i example.sql`
+
+ポスグレから出る
+`\q`
